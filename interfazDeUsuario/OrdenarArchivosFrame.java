@@ -22,6 +22,10 @@ import javax.swing.BoxLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+//Manejo de archivos.
+import java.io.File;
+import java.util.Date;
+
 public class OrdenarArchivosFrame extends JFrame{
   private JButton nuevaBusqueda;
   private JCheckBox incluirSubCarpetas;
@@ -112,11 +116,11 @@ public class OrdenarArchivosFrame extends JFrame{
     public void actionPerformed(ActionEvent e){
       RadioButtonOrd buttonSelected = ordenamientoSeleccionado.getSelection();
       //Todavía falta integrar esto con la obtención de datos y las tablas
-      Comparable[] archivos = Archivos.obtenerArchivos(directorioCampo.getText(),incluirSubCarpetas.isSelected());
-      archivos = buttonSelected.ordenar(archivos);
-      /*for(Comparable archivo : archivos){
+      File[] archivos = Archivos.obtenerArchivos(directorioCampo.getText(),incluirSubCarpetas.isSelected());
+      Date[] fechas = Archivos.obtenerFechas(archivos);
+      for(Comparable archivo : fechas){
         System.out.println(archivo.toString());
-      }*/
+      }
       //Ahora solo me falta meter estos datos a las tablas
     }
   }
