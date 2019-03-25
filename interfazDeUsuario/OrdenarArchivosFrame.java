@@ -112,6 +112,12 @@ public class OrdenarArchivosFrame extends JFrame{
     public void actionPerformed(ActionEvent e){
       RadioButtonOrd buttonSelected = ordenamientoSeleccionado.getSelection();
       //Todavía falta integrar esto con la obtención de datos y las tablas
+      Comparable[] archivos = Archivos.obtenerArchivos(directorioCampo.getText(),incluirSubCarpetas.isSelected());
+      archivos = buttonSelected.ordenar(archivos);
+      /*for(Comparable archivo : archivos){
+        System.out.println(archivo.toString());
+      }*/
+      //Ahora solo me falta meter estos datos a las tablas
     }
   }
 }
