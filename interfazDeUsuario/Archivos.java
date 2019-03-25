@@ -24,7 +24,8 @@ public class Archivos{
     //Supongo que "directorio" de verdad sea un directorio
     for(File archivo : directorio.listFiles()){
       //Incluyo tanto carpetas como archivos
-      archivos.add(archivo.toString());
+      //Solo guardo el nombre del archivo, no el path completo
+      archivos.add(archivo.toString().substring(archivo.toString().lastIndexOf("\\")+1));
       if(archivo.isDirectory() && subcarpetas){
         try{
           archivos = obtenerArchivos(archivos, archivo, subcarpetas);
