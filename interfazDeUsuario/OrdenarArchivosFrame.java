@@ -25,6 +25,8 @@ import java.awt.event.ActionEvent;
 //Manejo de archivos.
 import java.io.File;
 import java.util.Date;
+import java.util.Arrays;
+import java.text.DateFormat;
 
 public class OrdenarArchivosFrame extends JFrame{
   private JButton nuevaBusqueda;
@@ -114,13 +116,23 @@ public class OrdenarArchivosFrame extends JFrame{
   private class BotonApretado implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e){
-      RadioButtonOrd buttonSelected = ordenamientoSeleccionado.getSelection();
-      //Todavía falta integrar esto con la obtención de datos y las tablas
       File[] archivos = Archivos.obtenerArchivos(directorioCampo.getText(),incluirSubCarpetas.isSelected());
-      Date[] fechas = Archivos.obtenerFechas(archivos);
-      for(Comparable archivo : fechas){
-        System.out.println(archivo.toString());
+      String[] nombres = Archivos.nombresDeArchivos(archivos);
+      Comparable[] nombresOrdenados = ordenamientoSeleccionado.getSelection().ordenar(nombres);
+      for(int i = 0 ; i<nombres.length;i++){
+        nombres[i] = nombresOrdenados[i].toString();
       }
+      archivos = Archivos.ordenarPorNombres(nombres,archivos);
+      Date[] fechas = Archivos.obtenerFechas(archivos);
+      String[] fechasString = new String[fechas.length];
+      //DateFormat formato = new DateFormat();
+      for(int i = 0;i<fechas.length;i++){
+        fechasString[i] = DateFormat.getDateInstance().format(fechas[i]);
+      }
+      /*for(String fecha : fechasString){
+        System.out.println(fecha);
+      }
+      System.out.println("");*/
       //Ahora solo me falta meter estos datos a las tablas
     }
   }

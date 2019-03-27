@@ -13,6 +13,8 @@ public class Archivos{
   *@param directorio Es el directorio donde se hará la búsqueda.
   */
   public static File[] obtenerArchivos(String directorio, boolean subcarpetas){
+    directorio = directorio.replace('\\',File.separatorChar);
+    directorio = directorio.replace('/',File.separatorChar);
     File dir = new File(directorio);
     if(dir.isDirectory()){
       return obtenerArchivos(new ArrayList<File>(),dir, subcarpetas).toArray(new File[0]);
@@ -42,5 +44,27 @@ public class Archivos{
       dates[i] = new Date(files[i].lastModified());
     }
     return dates;
+  }
+
+  public static String[] nombresDeArchivos(File[] files){
+    String[] nombres = new String[files.length];
+    for(int i = 0;i < files.length;i++){
+      nombres[i] = files[i].toString().substring(files[i].toString().lastIndexOf(File.separator)+1);
+    }
+    return nombres;
+  }
+  public static File[] ordenarPorNombres(String[] nombres, File[] archivos){
+    File respaldo;
+    for(int i = 0;i<archivos.length;i++){
+      for(int j = i;j<archivos.length;j++){
+        if(nombres[i].equals(archivos[j].toString().substring(archivos[j].toString().lastIndexOf(File.separator)+1))){
+          respaldo = archivos[i];
+          archivos[i] = archivos[j];
+          archivos[j] = respaldo;
+          break;
+        }
+      }
+    }
+    return archivos;
   }
 }
