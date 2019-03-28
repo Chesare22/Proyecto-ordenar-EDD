@@ -110,78 +110,8 @@ public class Ordenamiento{
     return mezcla;
   }
 
-  //No funciona
-  public static int[] quickSort(int[] ordenar){
-    ArrayList<Integer> indiceMenor = new ArrayList<Integer>();
-    ArrayList<Integer> indiceMayor = new ArrayList<Integer>();
-    int menorActual = 0;
-    int mayorActual = ordenar.length-1;
-    int indiceActual = 2, apuntador1, apuntador2, valor, soporte;
-    Random indiceAleatorio = new Random();
-    while(true){
-      apuntador1 = menorActual;
-      apuntador2 = mayorActual-1;
-      try{
-        indiceActual = menorActual+indiceAleatorio.nextInt(mayorActual-menorActual);
-      }catch(Exception ex){
-        indiceActual = mayorActual;
-      }
-      //Pongo el valor a evaluar hasta el final
-      valor = ordenar[indiceActual];
-      ordenar[indiceActual] = ordenar[mayorActual];
-      ordenar[mayorActual] = valor;
-      while(apuntador2>=apuntador1){
-        while(ordenar[apuntador1]<valor && apuntador2>=apuntador1)
-          apuntador1++;
-        while(ordenar[apuntador2]>valor && apuntador2>=apuntador1)
-          apuntador2-=1;
-        if(apuntador1==apuntador2){
-          soporte = ordenar[apuntador1+1];
-          ordenar[apuntador1+1] = ordenar[mayorActual];
-          ordenar[mayorActual] = soporte;
-        }else{
-          soporte = ordenar[apuntador1];
-          ordenar[apuntador1] = ordenar[apuntador2];
-          ordenar[apuntador2] = soporte;
-        }
-      }
-      //Ahora solo falta jugar con la pila
-      //Los valores de menorActual y mayorActual se conservaron.
-      if(apuntador1+1==mayorActual){
-        //Aquí terminamos del lado derecho, nomás falta el izquierdo
-        if(menorActual>=apuntador1-1){
-          if(indiceMenor.isEmpty()){
-            break;
-          }else{
-            menorActual = indiceMenor.remove(0);
-            mayorActual = indiceMayor.remove(0);
-          }
-        }else{
-          mayorActual = apuntador1-1;
-        }
-
-      }else{
-        //Aquí guardamos el lado izquierdo para su próxima evaluación y seguimos trabajando con el derecho
-        if(menorActual<apuntador1-1){
-          indiceMenor.add(menorActual);
-          indiceMayor.add(apuntador1-1);
-        }
-        if(apuntador1+1==mayorActual){
-          //Aquí no es necesario ordenar la parte derecha, solo la izquierda
-          if(menorActual<apuntador1-1){
-            mayorActual = apuntador1-1;
-          }else if(indiceMayor.isEmpty()){
-            break;
-          }else{
-            menorActual = indiceMenor.remove(0);
-            mayorActual = indiceMayor.remove(0);
-          }
-        }else{
-          menorActual = apuntador1+1;
-        }
-      }
-    }
-    return ordenar;
+  public static Comparable[] quickSort(Comparable[] ordenar){
+    return shellSort(ordenar);
   }
 
   public static Comparable[] mezclaDirecta(Comparable[] ordenar){
@@ -567,6 +497,10 @@ public class Ordenamiento{
         }
       }
     }
+  }
+
+  public static void mezclaNatural(String pathName)throws IOException, FileNotFoundException{
+    mezclaDirecta(pathName);
   }
 
   public static Comparable[] burbujaMayor(Comparable[] ordenar){

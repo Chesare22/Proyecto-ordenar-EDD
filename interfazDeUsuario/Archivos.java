@@ -5,6 +5,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.io.File;
 import java.util.Date;
+import java.text.DateFormat;
+import java.lang.ArrayIndexOutOfBoundsException;
 
 public class Archivos{
   /**
@@ -38,10 +40,10 @@ public class Archivos{
     return archivos;
   }
 
-  public static Date[] obtenerFechas(File[] files){
-    Date[] dates = new Date[files.length];
+  public static String[] obtenerFechas(File[] files){
+    String[] dates = new String[files.length];
     for(int i = 0;i<files.length;i++){
-      dates[i] = new Date(files[i].lastModified());
+      dates[i] = DateFormat.getDateInstance().format(new Date(files[i].lastModified()));
     }
     return dates;
   }
@@ -66,5 +68,51 @@ public class Archivos{
       }
     }
     return archivos;
+  }
+  public static int busquedaBinaria(Comparable[] datos, Comparable buscar){
+    int l = 0,r = datos.length, comparacion = 0, m;
+
+    while(l<=r){
+      m = (l+r)/2;
+      try{
+        comparacion = datos[m].compareTo(buscar);
+      }catch(ArrayIndexOutOfBoundsException arr){
+        return -1;
+      }
+      if(comparacion<0){
+        l=m+1;
+      }else if(comparacion>0){
+        r=m-1;
+      }else{
+        return m;
+      }
+    }
+    return -1;
+  }
+  public static Integer[] indicesBusqueda(Comparable[] datos, Comparable buscar){
+    int indice = busquedaBinaria(datos, buscar), i = 1;
+    if(indice == -1){
+      return new Integer[0];
+    }
+    ArrayList<Integer> indices = new ArrayList<Integer>();
+    indices.add(indice);
+    while(indice+i<datos.length){
+      if(datos[indice+i].compareTo(buscar) == 0){
+        indices.add(indice+i);
+        i++;
+      }else{
+        break;
+      }
+    }
+    i=1;
+    while(indice-i>0){
+      if(datos[indice-i].compareTo(buscar) == 0){
+        indices.add(indice+i);
+        i++;
+      }else{
+        break;
+      }
+    }
+    return indices.toArray(new Integer[0]);
   }
 }
