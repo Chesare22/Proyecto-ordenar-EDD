@@ -28,17 +28,62 @@ import java.awt.event.ActionEvent;
 //Manejo de archivos.
 import java.io.File;
 
+/**
+*Frame principal de la aplicación.
+*
+*@author César González.
+*/
 public class OrdenarArchivosFrame extends JFrame{
+  /**
+  *Botón que, al ser apretado, realiza la búsqueda de un archivo
+  *en el directorio especificado.
+  *
+  *@see BotonApretado
+  */
   private JButton nuevaBusqueda;
+  /**
+  *Determina si se toman en cuenta las subcarpetas para la búsqueda.
+  *<p>
+  *Al estar seleccionado, las subcarpetas se incluyen.
+  */
   private JCheckBox incluirSubCarpetas;
+  /**
+  *Campo de donde se va a leer el nombre del archivo
+  *que se quiere encontrar.
+  */
   private JTextField buscarArchivoCampo;
+  /**
+  *Campo que indica el directorio donde se hará la búsqueda.
+  */
   private JTextField directorioCampo;
+  /**
+  *Controla la selección del algoritmo de ordenamiento a ejecutar.
+  */
   private RadioButtonOrdGroup ordenamientoSeleccionado;
+  /**
+  *Tabla donde muestran todos los archivos del directorio especificado.
+  */
   private JTable directorioTabla;
+  /**
+  *Tabla donde se muestran todas las coincidencias del archivo buscado.
+  */
   private JTable archivosEncontradosTabla;
+  /**
+  *Encabezado de las tablas.
+  */
   private String[] headers = {"Nombre","Ubicacion","Fecha"};
+  /**
+  *Número de filas de las tablas.
+  */
   private static final int ROWS = 250;
 
+  /**
+  *Constructor del frame que deja todo listo.
+  *Primero se inician todos los componentes con sus respectivas etiquetas.
+  *Después se agrupan los componentes en varios paneles
+  *Por último, se agregan dichos paneles al panel principal,
+  *ordenado con BoxLayout.
+  */
   public OrdenarArchivosFrame(){
     super("B\u00fasqueda de Archivos");
 
@@ -138,6 +183,14 @@ public class OrdenarArchivosFrame extends JFrame{
     add(panel);
   }
 
+  /**
+  *Modifico la proporción de las columnas de la tabla ingresada.
+  *El método espera una tabla con 3 columnas.
+  *
+  *@param tabla Tabla ingresada.
+  *@param segundaColumna Tamaño de la columna de en medio.
+  *@param otrasColumnas Tamaño de las otras 2 columnas de la tabla.
+  */
   private static void configurarTamanoTabla(JTable tabla, int segundaColumna, int otrasColumnas){
     TableColumn column = tabla.getColumnModel().getColumn(0);
     column.setPreferredWidth(otrasColumnas);
@@ -147,7 +200,31 @@ public class OrdenarArchivosFrame extends JFrame{
     column.setPreferredWidth(otrasColumnas);
   }
 
+  /**
+  *Manejador de eventos para que el botón nuevaBusqueda haga algo al ser apretado.
+  *En el método actionPerformed se especifica qué hace.
+  */
   private class BotonApretado implements ActionListener{
+
+    /**
+    *Método que hace la búsqueda de un archivo en un directorio
+    *siguiendo estos pasos:
+    *<p>
+    *1. Obtiene la lista de direcciones de todos los archivos que se encuentran en
+    *el directorio especificado.
+    *<p>
+    *2. Crea una lista que solo contiene el nombre de los archivos encontrados.
+    *<p>
+    *3. Ordena la lista de nombres.
+    *<p>
+    *4. Hace que la lista de nombres y direcciones tengan el mismo orden.
+    *<p>
+    *5. Efectúa la búsqueda del elemento.
+    *<p>
+    *6. Actualizo los datos de la tabla.
+    *<p>
+    *Cualquier anomalía se reporta con un JDialog.
+    */
     @Override
     public void actionPerformed(ActionEvent e){
       try{
@@ -175,9 +252,10 @@ public class OrdenarArchivosFrame extends JFrame{
           i++;
         }
         if(buscarArchivoCampo.getText().isEmpty()){
-          JOptionPane.showMessageDialog(null, "Archivo a buscar no especificado");
+          JOptionPane.showMessageDialog(null, "Archivo a buscar no especificado.");
         }else{
           Integer[] indices = Archivos.indicesBusqueda(nombres,buscarArchivoCampo.getText());
+
           for(int j = 0;j<indices.length;j++){
             archivosEncontradosTabla.getModel().setValueAt(nombres[indices[j]],j,0);
             archivosEncontradosTabla.getModel().setValueAt(archivos[indices[j]].toString(),j,1);
@@ -189,6 +267,11 @@ public class OrdenarArchivosFrame extends JFrame{
               archivosEncontradosTabla.getModel().setValueAt(null,i,j);
             }
             i++;
+          }
+          if(indices.length == 0){
+            JOptionPane.showMessageDialog(null, "No se encontr\u00f3 el archivo.");
+          }else{
+            JOptionPane.showMessageDialog(null, "Se encontraron " + indices.length + " archivos.");
           }
         }
       }catch(NullPointerException nul){

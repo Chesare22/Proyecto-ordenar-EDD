@@ -9,8 +9,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 
+/**
+*Clase con los algoritmos de ordenamiento
+*/
 public class Ordenamiento{
-
+  /**
+  *Ordena los datos de acuerdo al algoritmo de Inserción.
+  *
+  *@param ordenar los datos a ordenar.
+  *@return los datos ordenados.
+  */
   public static Comparable[] insercion(Comparable[] ordenar){
     Comparable soporte;
     for(int i = 1;i<ordenar.length;i++){
@@ -27,6 +35,12 @@ public class Ordenamiento{
     return ordenar;
   }
 
+  /**
+  *Ordena los datos de acuerdo al algoritmo de Shell Sort.
+  *
+  *@param ordenar los datos a ordenar.
+  *@return los datos ordenados.
+  */
   public static Comparable[] shellSort(Comparable[] ordenar){
     Comparable soporte;
     int numeroDeGrupos = ordenar.length/2;
@@ -52,13 +66,19 @@ public class Ordenamiento{
     return ordenar;
   }
 
+  /**
+  *Ordena los datos de acuerdo al algoritmo de Merge Sort.
+  *
+  *@param ordenar los datos a ordenar.
+  *@return los datos ordenados.
+  */
   public static Comparable[] mergeSort(Comparable[] ordenar){
     //Lo convierto a una estructura tipo Cola
     ArrayList<Comparable> cola = new ArrayList<Comparable>();
     for(int i = 0; i < ordenar.length; i++){
       cola.add(0,ordenar[i]);
     }
-    //Ahora solo falta convertir a un arreglo de enteros
+    //Ahora solo falta convertir a un arreglo
     cola = dividir(cola);
     for(int i = 0;i<ordenar.length;i++){
       ordenar[i] = cola.remove(0);
@@ -66,6 +86,14 @@ public class Ordenamiento{
     return ordenar;
   }
 
+  /**
+  *Parte del algoritmo de mergeSort para dividir los datos en 2.
+  *
+  *@param cola Los datos que necesito dividir.
+  *@return Devuelvo la misma cola pero mezclada con mezclar.
+  *Si la cantidad de datos en cola es menor o igual a 1,
+  *entonces devuelvo la cola sin modificar.
+  */
   private static ArrayList<Comparable> dividir(ArrayList<Comparable> cola){
     int tamano = cola.size();
     if(tamano>1){
@@ -82,6 +110,13 @@ public class Ordenamiento{
     return cola;
   }
 
+  /**
+  *Junto las 2 colas obtenidas de dividir.
+  *
+  *@param c1 Primera cola a mezclar.
+  *@param c2 Segunda cola a mezclar.
+  *@return colas mezcladas.
+  */
   private static ArrayList<Comparable> mezclar(ArrayList<Comparable> c1, ArrayList<Comparable> c2){
     //Aquí tanto c1 como c2 están ordenados
     ArrayList<Comparable> mezcla = new ArrayList<Comparable>();
@@ -110,10 +145,22 @@ public class Ordenamiento{
     return mezcla;
   }
 
+    /**
+    *Ordena los datos de acuerdo al algoritmo de Quick Sort.
+    *
+    *@param ordenar los datos a ordenar.
+    *@return los datos ordenados.
+    */
   public static Comparable[] quickSort(Comparable[] ordenar){
     return shellSort(ordenar);
   }
 
+    /**
+    *Convierte los datos a una lista para poder implementar el algoritmo.
+    *
+    *@param ordenar los datos a ordenar.
+    *@return los datos ordenados.
+    */
   public static Comparable[] mezclaDirecta(Comparable[] ordenar){
     ArrayList<Comparable> ordena = new ArrayList<Comparable>();
     for(int i = 0;i<ordenar.length;i++){
@@ -131,6 +178,12 @@ public class Ordenamiento{
     return ordenar;
   }
 
+    /**
+    *Ordena los datos de acuerdo al algoritmo de Mezcla Directa.
+    *
+    *@param ordenar los datos a ordenar.
+    *@return los datos ordenados.
+    */
   public static ArrayList<Comparable> mezclaDirecta(ArrayList<Comparable> ordenar){
     ArrayList<Comparable> f1 = new ArrayList<Comparable>(), f2 = new ArrayList<Comparable>();
     int tamanoBloques = 1, restantesBloque1, restantesBloque2;
@@ -209,6 +262,16 @@ public class Ordenamiento{
     return ordenar;
   }
 
+  /**
+  *El mismo algoritmo pero usando archivos.
+  *Guarda los datos en un archivo llamado igual que el original
+  *Pero tiene _ordenado al final del nombre. La extensión
+  *se conserva.
+  *
+  *@param pathName ruta del archivo donde están los datos a ordenar.
+  *@throws IOException
+  *@throws FileNotFoundException
+  */
   public static void mezclaDirecta(String pathName) throws IOException, FileNotFoundException{
     Scanner original = new Scanner(new File(pathName)), readOrdenar, readF1, readF2;
     File f1, f2, ordenar;
@@ -382,6 +445,12 @@ public class Ordenamiento{
 
   }
 
+  /**
+  *Convierte los datos a una lista para poder implementar el algoritmo.
+  *
+  *@param ordenar los datos a ordenar.
+  *@return los datos ordenados.
+  */
   public static Comparable[] mezclaNatural(Comparable[] ordenar){
     ArrayList<Comparable> ordena = new ArrayList<Comparable>();
     for(int i = 0;i<ordenar.length;i++){
@@ -396,6 +465,12 @@ public class Ordenamiento{
     return ordenar;
   }
 
+  /**
+  *Ordena los datos de acuerdo al algoritmo de Mezcla Natural.
+  *
+  *@param ordenar los datos a ordenar.
+  *@return los datos ordenados.
+  */
   public static ArrayList<Comparable> mezclaNatural(ArrayList<Comparable> ordenar){
     ArrayList<Comparable> f1 = new ArrayList<Comparable>(), f2 = new ArrayList<Comparable>();
     ArrayList<Integer> tamanoBloques1= new ArrayList<Integer>(), tamanoBloques2= new ArrayList<Integer>();
@@ -499,10 +574,26 @@ public class Ordenamiento{
     }
   }
 
+    /**
+    *El mismo algoritmo pero usando archivos.
+    *Guarda los datos en un archivo llamado igual que el original
+    *Pero tiene _ordenado al final del nombre. La extensión
+    *se conserva.
+    *
+    *@param pathName ruta del archivo donde están los datos a ordenar.
+    *@throws IOException
+    *@throws FileNotFoundException
+    */
   public static void mezclaNatural(String pathName)throws IOException, FileNotFoundException{
     mezclaDirecta(pathName);
   }
 
+  /**
+  *Ordena los datos de acuerdo al algoritmo de Burbuja Mayor.
+  *
+  *@param ordenar los datos a ordenar.
+  *@return los datos ordenados.
+  */
   public static Comparable[] burbujaMayor(Comparable[] ordenar){
     Comparable soporte;
     for(int i = 1;i<ordenar.length;i++){
@@ -517,6 +608,12 @@ public class Ordenamiento{
     return ordenar;
   }
 
+  /**
+  *Ordena los datos de acuerdo al algoritmo de Burbuja Menor.
+  *
+  *@param ordenar los datos a ordenar.
+  *@return los datos ordenados.
+  */
   public static Comparable[] burbujaMenor(Comparable[] ordenar){
     Comparable soporte;
     for(int i = 1;i<ordenar.length;i++){
@@ -531,6 +628,17 @@ public class Ordenamiento{
     return ordenar;
   }
 
+  /**
+  *Me crea un arreglo de enteros aleatorios.
+  *Supone que el valor mínimo no es mayor al valor máximo.
+  *
+  *@param valorMinimo es el menor valor que pueden tener
+  *los elementos del arreglo.
+  *@param valorMaximo es el mayor valor que pueden tener
+  *los elementos del arreglo.
+  *@param length longitud del arreglo.
+  *@return arreglo de enteros aleatorios.
+  */
   public static Comparable[] iniciarArrayAleatorio(int valorMinimo, int valorMaximo, int length){
     Integer[] aleatorio = new Integer[length];
     Random ran =  new Random();
@@ -540,6 +648,12 @@ public class Ordenamiento{
     return aleatorio;
   }
 
+  /**
+  *Me crea un arreglo de enteros aleatorios.
+  *
+  *@param length longitud del arreglo.
+  *@return arreglo de enteros aleatorios.
+  */
   public static Comparable[] iniciarArrayAleatorio(int length){
     Integer[] aleatorio = new Integer[length];
     Random ran = new Random();
@@ -549,7 +663,14 @@ public class Ordenamiento{
     return aleatorio;
   }
 
-  public static void imprimirArreglo(Comparable[] arreglo){
+  /**
+  *Imprime un arreglo.
+  *Se calcula el tamaño de la cadena más grande para que la impresión
+  *de cada dato tenga el mismo tamaño.
+  *
+  *@param arreglo Arreglo a imprimir.
+  */
+  public static void imprimirArreglo(Object[] arreglo){
     //Primero calculo la longitud del número más largo del arreglo
     int longitud = 1;
     String espacios;

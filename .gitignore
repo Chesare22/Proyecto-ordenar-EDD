@@ -2,3 +2,4 @@ exe
 *.class
 *.bat
 Test.java
+*.txt
